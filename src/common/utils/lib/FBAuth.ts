@@ -28,7 +28,7 @@ export const snsLoginGithub = async () => {
       snsLoginId: snsResult.user.uid,
     };
     const postSNSUser = await snsSignInUser(userBody);
-    console.log(postSNSUser);
+    return postSNSUser;
   } catch (error) {}
 };
 
@@ -44,6 +44,7 @@ export const snsLoginGoogle = async () => {
       snsLoginId: snsResult.user.uid,
     };
     const postSNSUser = await snsSignInUser(userBody);
+    return postSNSUser;
   } catch (error) {}
 };
 
