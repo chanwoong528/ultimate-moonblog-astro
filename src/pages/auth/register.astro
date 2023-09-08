@@ -47,7 +47,7 @@ console.log(Astro.cookies);
 
   <script>
     import { userInfo } from "../../common/store/storeUser.ts";
-    import {snsWebAgreement} from "../../http/auth/ApiUser.ts";
+    import { snsWebAgreement } from "../../http/auth/ApiUser.ts";
 
     const emailInfoP = document.querySelector(".section-userinfo .p-email");
     const nameInfoP = document.querySelector(".section-userinfo .p-name");
@@ -60,11 +60,11 @@ console.log(Astro.cookies);
 
     const webAgreementBtn = document.querySelector(".btn-web-agreement");
 
-    webAgreementBtn.addEventListener("click", async() => {
+    webAgreementBtn.addEventListener("click", async () => {
       const checkboxes = document.querySelectorAll("input[type=checkbox]");
       let checkboxesResult = Array.from(checkboxes).reduce(
         (acc, currentValue, index) => {
-          acc[currentValue.value] = currentValue.checked;
+          acc[currentValue.value] = currentValue.checked ? "Y" : "N";
           return acc;
         },
         {}
@@ -73,15 +73,8 @@ console.log(Astro.cookies);
         ...userInfo.get(),
         ...checkboxesResult,
       };
-      try {
-        const patchUserWebAgreement = await snsWebAgreement(userPatchParam); 
-        console.log(patchUserWebAgreement)
-      } catch (error) {
-        
-      }
-
-
-      console.log(userPatchParam);
+      const patchUserWebAgreement = await snsWebAgreement(userPatchParam);
+      window.location.href = "/";
     });
   </script>
 </Layout>

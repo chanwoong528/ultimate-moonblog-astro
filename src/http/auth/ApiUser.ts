@@ -11,12 +11,11 @@ export const snsSignInUser = async (snsUserInfo) => {
   }
 };
 export const snsWebAgreement = async (snsUserInfo) => {
-  console.log(snsUserInfo)
   try {
     const patchUser = await http.patch("/api/user", { ...snsUserInfo }, {});
     const patchUserData = await patchUser.data;
     return patchUserData;
   } catch (error) {
-    console.error("snsSignInUser[error]: ", error);
+    console.error("snsWebAgreement[error]: ", error);
   }
 };
