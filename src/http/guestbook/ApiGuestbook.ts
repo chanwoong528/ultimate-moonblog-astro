@@ -13,6 +13,7 @@ export const getGuestbooks = async () => {
 
 export const patchCountGuestbook = async (id, type) => {
   try {
+    console.log("patchCountGuestbook>>  ", id, type);
     const patchCount = await http.patch(
       "/comment/count",
       {},

@@ -6,6 +6,13 @@ export const userInteractive = async (
   contentType,
   interactiveType
 ) => {
+  console.log(
+    "userInteractive>>  ",
+    userId,
+    contentId,
+    contentType,
+    interactiveType
+  );
   try {
     const patchOrCreateInter = await http.post(
       "/interactive",
@@ -24,7 +31,6 @@ export const userInteractive = async (
   }
 };
 export const getUserInteractive = async (userId) => {
-  console.log("@@@@@@@@@", userId);
   try {
     const fetchUserInter = await http.get("/interactive", {
       params: {
