@@ -1,8 +1,10 @@
 //@ts-nocheck
 import axios from "axios";
+import Cookies from "universal-cookie";
+
+import { resetUserInfo } from "../common/store/storeUser";
 
 import { BASE_API_URL } from "../common/utils/constant/META";
-import { AstroCookies } from "astro";
 
 const http = axios.create({
   baseURL: BASE_API_URL,
@@ -11,31 +13,37 @@ const http = axios.create({
   },
   withCredentials: true,
 });
-http.interceptors.request.use((config) => {
-  let token = localStorage.getItem("userInfo:accessToken");
-  config.headers["x-access-token"] = token;
-  return config;
-});
 
+const cookies = new Cookies(null, { path: "/" });
 http.interceptors.response.use(
   async (response) => {
     return response;
   },
   async (error) => {
     const originalRequest = error.config;
-    console.log("customAxios[error]: ", error.response);
-    if (error.response.status === 408) {
-      // const refToken = localStorage.getItem("refToken");
-      // const refToken = AstroCookies
-      const res = await axios.post(`${BASE_API_URL}/user/token`, {
-        refToken,
-      });
-      localStorage.setItem("accToken", res.data.accToken);
-      originalRequest.headers["x-access-token"] = res.data.accToken;
-      http.defaults.headers.common["x-access-token"] = res.data.accToken;
-      return axios(originalRequest);
+    if (error.response.status === 498) {
+      //Token expired error code
+      try {
+        const refresh_token = cookies.get("refresh_token");
+        const res = await axios.post(`${BASE_API_URL}/auth/token`, {
+          refresh_token,
+        });
+        cookies.set("access_token", res.data.data.newAccessToken);
+        return axios(originalRequest);
+      } catch (error) {
+        //If refresh fail, then logout user;
+        cookies.remove("access_token");
+        cookies.remove("refresh_token");
+        resetUserInfo();
+      }
+    } else {
+      //invalid Error -> logout user
+      cookies.remove("access_token");
+      cookies.remove("refresh_token");
+      resetUserInfo();
     }
     return Promise.reject(error);
   }
 );
+
 export default http;

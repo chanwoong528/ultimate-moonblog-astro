@@ -27,6 +27,7 @@ export const snsLoginGithub = async () => {
       name: snsResult.user.displayName,
       snsLoginId: snsResult.user.uid,
     };
+    console.log(userBody);
     const postSNSUser = await snsSignInUser(userBody);
     return postSNSUser;
   } catch (error) {}

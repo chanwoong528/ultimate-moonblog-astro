@@ -11,4 +11,4 @@ export const FB_API_CONFIG = {
   appId: "1:213255227355:web:a92f60417ff6b8a30589fe",
   measurementId: "G-8CSNKZ1Q9T",
 };
-export const BASE_API_URL = "http://localhost:8081";
+export const BASE_API_URL = "http://localhost:5002";

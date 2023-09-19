@@ -2,7 +2,7 @@
 
 import React from "react";
 import { snsLoginGithub, snsLoginGoogle } from "../../common/utils/lib/FBAuth";
-import { userInfo, patchUserInfo } from "../../common/store/storeUser";
+import { patchUserInfo } from "../../common/store/storeUser";
 
 const ListSNSLogin = () => {
   const SNS_LOGINS = [
@@ -12,7 +12,7 @@ const ListSNSLogin = () => {
       icon: "",
       onClick: async () => {
         const userData = await snsLoginGoogle();
-        checkNewUser(userData);
+        checkNewUser(userData.data);
       },
     },
     {
@@ -22,20 +22,20 @@ const ListSNSLogin = () => {
       onClick: async () => {
         const userData = await snsLoginGithub();
 
-        checkNewUser(userData);
+        checkNewUser(userData.data);
       },
     },
   ];
 
   const checkNewUser = (userData) => {
-    console.log(userData);
     if (userData.verified === "N") {
       //New User
       patchUserInfo(userData);
       window.location.href = "/auth/register";
     } else {
-      //Existing User 
+      //Existing User
       patchUserInfo(userData);
+      window.location.href = "/";
     }
   };
 
@@ -43,7 +43,7 @@ const ListSNSLogin = () => {
     <ul>
       {SNS_LOGINS.map((sns) => {
         return (
-          <li>
+          <li key={sns.id}>
             <button onClick={sns.onClick}>{sns.label}</button>
           </li>
         );

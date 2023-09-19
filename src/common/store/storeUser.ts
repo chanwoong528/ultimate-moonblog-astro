@@ -28,13 +28,24 @@ export const userInfo = persistentMap("userInfo:", {
   privacyConsent: "",
 });
 export const patchUserInfo = (newUserInfo) => {
-
   const existingEntry = !!userInfo.get().id;
   if (existingEntry) {
     userInfo.set({ ...userInfo, ...newUserInfo });
-    console.log(userInfo.get());
   } else {
     userInfo.set({ ...newUserInfo });
-    console.log(userInfo.get());
   }
+};
+export const resetUserInfo = () => {
+  userInfo.set({
+    id: "",
+    loginType: "",
+    name: "",
+    email: "",
+    role: "",
+    createdDate: "",
+    updatedDate: "",
+    verified: "",
+    marketingConsent: "",
+    privacyConsent: "",
+  });
 };

@@ -3,7 +3,10 @@ interface Props {
   title: string;
 }
 const { title } = Astro.props;
-import "../styles/styles.scss"
+
+import Header from "../components/astro/Header.astro";
+
+import "../styles/styles.scss";
 ---
 
 <html lang="en">
@@ -15,6 +18,8 @@ import "../styles/styles.scss"
     <title>{title} | Moon</title>
   </head>
   <body>
-    <slot/>
+   
+    <Header />
+    <slot />
   </body>
 </html>
