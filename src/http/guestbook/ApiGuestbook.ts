@@ -13,7 +13,6 @@ export const getGuestbooks = async () => {
 
 export const patchCountGuestbook = async (id, type) => {
   try {
-    console.log("patchCountGuestbook>>  ", id, type);
     const patchCount = await http.patch(
       "/comment/count",
       {},
@@ -28,4 +27,16 @@ export const patchCountGuestbook = async (id, type) => {
   } catch (error) {
     console.error("patchCountGuestbook[error]: ", error);
   }
+};
+
+export const postGuestbook = async (content, parentId?) => {
+  try {
+    const postGuestbook = await http.post(
+      "/comment",
+      { content },
+      { params: { parentId } }
+    );
+    console.log(postGuestbook);
+    return postGuestbook.data;
+  } catch (error) {}
 };

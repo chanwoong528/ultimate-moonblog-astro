@@ -31,3 +31,10 @@ export const checkLoginUser = async () => {
     console.error("checkLoginUser[error]: ", error);
   }
 };
+export const getLikesUserId = async (userId, contentType) => {
+  try {
+    const getUserLikes = await http.get("/")
+  } catch (error) {
+    console.error("getLikesUserId[error]: ", error);
+  }
+};

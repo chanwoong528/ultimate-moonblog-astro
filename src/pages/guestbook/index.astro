@@ -2,11 +2,13 @@
 //@ts-nocheck
 
 import Layout from "../../layouts/Layout.astro";
+
 import ListGuestbook from "../../components/react/ListGuestbook";
 
 import { getGuestbooks } from "../../http/guestbook/ApiGuestbook";
 const guestbookResponse = await getGuestbooks();
 const guestbookData = await guestbookResponse.data;
+console.log(guestbookData);
 ---
 
 <Layout title="guestbook">

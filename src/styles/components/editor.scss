@@ -1,0 +1,18 @@
+.editor-con {
+  border: 1px solid blue;
+  p,
+  code,
+  em,
+  strong {
+    text-decoration: initial;
+  }
+  ul,
+  ol,
+  li {
+    list-style: revert;
+  }
+  blockquote,
+  q {
+    quotes: revert;
+  }
+}

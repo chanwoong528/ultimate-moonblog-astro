@@ -21,6 +21,8 @@
     "nanostores": "^0.9.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "suneditor": "^2.45.1",
+    "suneditor-react": "^3.6.1",
     "universal-cookie": "^6.1.1"
   },
   "devDependencies": {
