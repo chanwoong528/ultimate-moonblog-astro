@@ -8,14 +8,14 @@ import { CONTENT_TYPE } from "../../common/utils/constant/BE_DATA_TYPES";
 const EditorSun = ({ type, parent, onClickSave }) => {
   const editor = useRef();
   const commentButtonList = useRef([
-    ["undo", "redo"],
-    ["paragraphStyle", "blockquote"],
-    ["bold", "underline", "italic", "strike"],
-    ["fontColor", "hiliteColor"],
-    ["outdent", "indent"],
-    ["align", "horizontalRule", "list"],
-    ["link", "image" /** ,'math' */], // You must add the 'katex' library at options to use the 'math' plugin.
-    ["fullScreen", "showBlocks", "codeView"], //tobe removed
+    // ["undo", "redo"],
+    // ["paragraphStyle", "blockquote"],
+    // ["bold", "underline", "italic", "strike"],
+    // ["fontColor", "hiliteColor"],
+    // ["outdent", "indent"],
+    // ["align", "horizontalRule", "list"],
+    // ["link", "image" /** ,'math' */], // You must add the 'katex' library at options to use the 'math' plugin.
+    // ["fullScreen", "showBlocks", "codeView"], //tobe removed
     ["save"],
   ]);
   const getSunEditorInstance = (sunEditor) => {

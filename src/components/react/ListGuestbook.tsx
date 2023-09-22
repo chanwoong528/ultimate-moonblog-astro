@@ -5,6 +5,7 @@ import { useStore } from "@nanostores/react";
 import { userInfo } from "../../common/store/storeUser";
 
 import EditorSun from "./EditorSun";
+import ItemGuestbook from "./ItemGuestbook";
 
 import {
   patchCountGuestbook,
@@ -27,7 +28,6 @@ const ListGuestbook = ({ guestbookData }) => {
   const [currentComment, setCurrentComment] = useState("");
   const btnRefs = useRef([]);
   useEffect(() => {
-    console.log("@@@@@@@@@@@@@", guestbookData);
     if (!!$userInfo.id) {
       fetchUserLikes($userInfo.id);
     }
@@ -45,6 +45,7 @@ const ListGuestbook = ({ guestbookData }) => {
     return userInterData.data;
   };
   const onClickShow = (guestbookId) => {
+    console.log(guestbookId);
     currentComment === guestbookId
       ? setCurrentComment("")
       : setCurrentComment(guestbookId);
@@ -149,66 +150,14 @@ const ListGuestbook = ({ guestbookData }) => {
       <ul>
         {guestbooks.map((guestbook) => {
           return (
-            <li key={guestbook._id}>
-              <article>
-                <div dangerouslySetInnerHTML={{ __html: guestbook.content }} />
-                <p rel="author">{guestbook.userName}</p>
-              </article>
-              {guestbook.childComment.map((childComment) => {
-                return (
-                  <p style={{ border: "1px solid red" }}>
-                    {childComment.content}
-                  </p>
-                );
-              })}
-              <div>
-                <h3>{guestbook.interactiveType}</h3>
-                <button
-                  ref={(ref) => (btnRefs.current[0] = ref)}
-                  className={`btn-like${
-                    guestbook.interactiveType === COMMENT_PATCH_TYPE.likeInc
-                      ? " on"
-                      : ""
-                  }`}
-                  onClick={() => {
-                    onClickLike(
-                      guestbook._id,
-                      "likeBtn",
-                      guestbook.interactiveType
-                    );
-                  }}
-                >
-                  {guestbook.likes}++
-                </button>
-                <button
-                  ref={(ref) => (btnRefs.current[1] = ref)}
-                  className={`btn-like${
-                    guestbook.interactiveType === COMMENT_PATCH_TYPE.dislikeInc
-                      ? " on"
-                      : ""
-                  }`}
-                  onClick={() => {
-                    onClickLike(
-                      guestbook._id,
-                      "dislikeBtn",
-                      guestbook.interactiveType
-                    );
-                  }}
-                >
-                  {guestbook.dislikes}--
-                </button>
-                <button onClick={() => onClickShow(guestbook._id)}>
-                  Commnet
-                </button>
-              </div>
-              {currentComment === guestbook._id ? (
-                <EditorSun
-                  type={CONTENT_TYPE.comment}
-                  parent={currentComment}
-                  onClickSave={onClickSave}
-                />
-              ) : null}
-            </li>
+            <ItemGuestbook
+              guestbook={guestbook}
+              onClickShow={onClickShow}
+              onClickLike={onClickLike}
+              onClickSave={onClickSave}
+              currentComment={currentComment}
+              btnRefs={btnRefs}
+            />
           );
         })}
       </ul>

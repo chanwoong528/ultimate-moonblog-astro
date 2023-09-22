@@ -1,0 +1,80 @@
+//@ts-nocheck
+
+import React, { useState } from "react";
+import EditorSun from "./EditorSun";
+import {
+  COMMENT_PATCH_TYPE,
+  CONTENT_TYPE,
+} from "../../common/utils/constant/BE_DATA_TYPES";
+
+const ItemGuestbook = ({
+  guestbook,
+  onClickLike,
+  onClickShow,
+  onClickSave,
+  currentComment,
+  btnRefs,
+}) => {
+  return (
+    <li key={guestbook._id}>
+      <article>
+        <div dangerouslySetInnerHTML={{ __html: guestbook.content }} />
+        <p rel="author">{guestbook.userName}</p>
+      </article>
+      {guestbook.childrenCount > 0 ? (
+        <section>
+          <header>
+            <button>{guestbook.childrenCount} number of comment</button>
+          </header>
+        </section>
+      ) : null}
+
+      {/* {guestbook.childComment.map((childComment) => {
+        return (
+          <p style={{ border: "1px solid red" }}>{childComment.content}</p>
+        );
+      })} */}
+      <div>
+        <h3>{guestbook.interactiveType}</h3>
+        <button
+          ref={(ref) => (btnRefs.current[0] = ref)}
+          className={`btn-like${
+            guestbook.interactiveType === COMMENT_PATCH_TYPE.likeInc
+              ? " on"
+              : ""
+          }`}
+          onClick={() => {
+            onClickLike(guestbook._id, "likeBtn", guestbook.interactiveType);
+          }}
+        >
+          {guestbook.likes}++
+        </button>
+        <button
+          ref={(ref) => (btnRefs.current[1] = ref)}
+          className={`btn-like${
+            guestbook.interactiveType === COMMENT_PATCH_TYPE.dislikeInc
+              ? " on"
+              : ""
+          }`}
+          onClick={() => {
+            onClickLike(guestbook._id, "dislikeBtn", guestbook.interactiveType);
+          }}
+        >
+          {guestbook.dislikes}--
+        </button>
+        <button onClick={() => onClickShow(guestbook._id)}>
+          Comment{guestbook.childrenCount}
+        </button>
+      </div>
+      {currentComment === guestbook._id ? (
+        <EditorSun
+          type={CONTENT_TYPE.comment}
+          parent={currentComment}
+          onClickSave={onClickSave}
+        />
+      ) : null}
+    </li>
+  );
+};
+
+export default ItemGuestbook;
