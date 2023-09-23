@@ -1,11 +1,12 @@
 //@ts-nocheck
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import EditorSun from "./EditorSun";
 import {
   COMMENT_PATCH_TYPE,
   CONTENT_TYPE,
 } from "../../common/utils/constant/BE_DATA_TYPES";
+import { getGuestbooks } from "../../http/guestbook/ApiGuestbook";
 
 const ItemGuestbook = ({
   guestbook,
@@ -15,6 +16,12 @@ const ItemGuestbook = ({
   currentComment,
   btnRefs,
 }) => {
+  const [recommentArr, setRecommentArr] = useState([]);
+
+  const onClickGetRecomments = async (parentId) => {
+    const recommentsData = await getGuestbooks(parentId);
+    setRecommentArr(recommentsData.data);
+  };
   return (
     <li key={guestbook._id}>
       <article>
@@ -24,16 +31,24 @@ const ItemGuestbook = ({
       {guestbook.childrenCount > 0 ? (
         <section>
           <header>
-            <button>{guestbook.childrenCount} number of comment</button>
+            <button
+              onClick={() => {
+                onClickGetRecomments(guestbook._id);
+              }}
+            >
+              {guestbook.childrenCount} number of comment
+            </button>
           </header>
         </section>
       ) : null}
 
-      {/* {guestbook.childComment.map((childComment) => {
-        return (
-          <p style={{ border: "1px solid red" }}>{childComment.content}</p>
-        );
-      })} */}
+      {recommentArr.length > 0
+        ? recommentArr.map((childComment) => {
+            return (
+              <p style={{ border: "1px solid red" }}>{childComment.content}</p>
+            );
+          })
+        : null}
       <div>
         <h3>{guestbook.interactiveType}</h3>
         <button

@@ -1,9 +1,13 @@
 //@ts-nocheck
 import http from "../http";
 
-export const getGuestbooks = async () => {
+export const getGuestbooks = async (parentId?) => {
   try {
-    const getGBs = await http.get("/comment");
+    const getGBs = await http.get("/comment", {
+      params: {
+        parentId,
+      },
+    });
     const getGBsData = await getGBs.data;
     return getGBsData;
   } catch (error) {
