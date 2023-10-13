@@ -3,7 +3,7 @@ import http from "../http";
 
 export const getGuestbooks = async (parentId?) => {
   try {
-    const getGBs = await http.get("/comment", {
+    const getGBs = await http.get("/api/comment", {
       params: {
         parentId,
       },
@@ -18,7 +18,7 @@ export const getGuestbooks = async (parentId?) => {
 export const patchCountGuestbook = async (id, type) => {
   try {
     const patchCount = await http.patch(
-      "/comment/count",
+      "/certi/comment/count",
       {},
       {
         params: {
@@ -36,11 +36,10 @@ export const patchCountGuestbook = async (id, type) => {
 export const postGuestbook = async (content, parentId?) => {
   try {
     const postGuestbook = await http.post(
-      "/comment",
+      "/certi/comment",
       { content },
       { params: { parentId } }
     );
-    console.log(postGuestbook);
     return postGuestbook.data;
   } catch (error) {}
 };

@@ -12,6 +12,7 @@ const ListSNSLogin = () => {
       icon: "",
       onClick: async () => {
         const userData = await snsLoginGoogle();
+        console.log(userData)
         checkNewUser(userData.data);
       },
     },

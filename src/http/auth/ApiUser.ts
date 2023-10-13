@@ -3,7 +3,7 @@ import http from "../http";
 
 export const snsSignInUser = async (snsUserInfo) => {
   try {
-    const postUser = await http.post("/user", { ...snsUserInfo }, {});
+    const postUser = await http.post("/api/auth", { ...snsUserInfo }, {});
     const postUserData = await postUser.data;
     return postUserData;
   } catch (error) {
@@ -13,7 +13,7 @@ export const snsSignInUser = async (snsUserInfo) => {
 export const snsWebAgreement = async (snsUserInfo) => {
   try {
     const patchUser = await http.patch(
-      `/user/${snsUserInfo.id}`,
+      `/certi/user/${snsUserInfo.id}`,
       { ...snsUserInfo, verified: "Y", active: "Y" },
       {}
     );
@@ -25,7 +25,7 @@ export const snsWebAgreement = async (snsUserInfo) => {
 };
 export const checkLoginUser = async () => {
   try {
-    const getToken = await http.get("/auth");
+    const getToken = await http.get("/api/auth");
     const getTokenData = await getToken.data;
   } catch (error) {
     console.error("checkLoginUser[error]: ", error);
@@ -33,7 +33,7 @@ export const checkLoginUser = async () => {
 };
 export const getLikesUserId = async (userId, contentType) => {
   try {
-    const getUserLikes = await http.get("/")
+    const getUserLikes = await http.get("/");
   } catch (error) {
     console.error("getLikesUserId[error]: ", error);
   }

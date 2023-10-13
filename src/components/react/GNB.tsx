@@ -13,7 +13,7 @@ const GNB = () => {
     // { title: "Register", url: "/auth/register", order: 6 },
   ]);
   useEffect(() => {
-    checkLoginUser();
+    // checkLoginUser();
   }, []);
 
   return (

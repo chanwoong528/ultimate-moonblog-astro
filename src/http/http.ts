@@ -25,7 +25,7 @@ http.interceptors.response.use(
       //Token expired error code
       try {
         const refresh_token = cookies.get("refresh_token");
-        const res = await axios.post(`${BASE_API_URL}/auth/token`, {
+        const res = await axios.post(`${BASE_API_URL}/api/auth/token`, {
           refresh_token,
         });
         cookies.set("access_token", res.data.data.newAccessToken);

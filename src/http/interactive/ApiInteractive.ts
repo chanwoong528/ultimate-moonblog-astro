@@ -8,7 +8,7 @@ export const userInteractive = async (
 ) => {
   try {
     const patchOrCreateInter = await http.post(
-      "/interactive",
+      "/certi/interactive",
       {
         userId,
         contentId,
@@ -25,7 +25,7 @@ export const userInteractive = async (
 };
 export const getUserInteractive = async (userId) => {
   try {
-    const fetchUserInter = await http.get("/interactive", {
+    const fetchUserInter = await http.get("/api/interactive", {
       params: {
         userId,
       },

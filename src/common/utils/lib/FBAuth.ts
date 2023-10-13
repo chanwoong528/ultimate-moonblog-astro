@@ -27,10 +27,13 @@ export const snsLoginGithub = async () => {
       name: snsResult.user.displayName,
       snsLoginId: snsResult.user.uid,
     };
-    console.log(userBody);
+    
     const postSNSUser = await snsSignInUser(userBody);
+    
     return postSNSUser;
-  } catch (error) {}
+  } catch (error) {
+    console.log("snsLoginGithub[error]: ", error);
+  }
 };
 
 export const snsLoginGoogle = async () => {
@@ -46,7 +49,9 @@ export const snsLoginGoogle = async () => {
     };
     const postSNSUser = await snsSignInUser(userBody);
     return postSNSUser;
-  } catch (error) {}
+  } catch (error) {
+    console.log("snsLoginGoogle[error]: ", error);
+  }
 };
 
 // export const snsLoginGoogle = async () => {};
