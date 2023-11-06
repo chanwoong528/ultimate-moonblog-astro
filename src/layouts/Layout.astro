@@ -4,7 +4,7 @@ interface Props {
 }
 const { title } = Astro.props;
 
-import Header from "../components/astro/Header.astro";
+import Header from "../components/Common/Header.astro";
 
 import "../styles/styles.scss";
 ---
@@ -18,8 +18,9 @@ import "../styles/styles.scss";
     <title>{title} | Moon</title>
   </head>
   <body>
-   
-    <Header />
-    <slot />
+    <main>
+      <Header />
+      <slot />
+    </main>
   </body>
 </html>

@@ -1,31 +1,22 @@
-import React, { useRef, useEffect } from "react";
+import React, { useEffect } from "react";
 import { userInfo } from "../../common/store/storeUser";
 import { checkLoginUser } from "../../http/auth/ApiUser";
-
+import { NAV_LIST } from "../../common/utils/constant/CONSTANT";
 const GNB = () => {
-  const navItem = useRef([
-    { title: "About", url: "/", auth: 2 },
-    { title: "Project", url: "/projects", auth: 2 },
-    { title: "Posts", url: "/posts", auth: 2 },
-    { title: "Guestbook", url: "/guestbook", auth: 2 },
-    { title: "Admin", url: "/admin", auth: 3 },
-    { title: "Login", url: "/auth", auth: 0 },
-    // { title: "Register", url: "/auth/register", order: 6 },
-  ]);
   useEffect(() => {
-    // checkLoginUser();
+    checkLoginUser();
   }, []);
 
   return (
     <nav className="gnb">
       <ul>
-        {navItem.current
+        {NAV_LIST
           .filter((item) =>
             !userInfo.get().id
               ? item.auth > -1 && item.auth < 3
               : userInfo.get().role === "admin"
-              ? item.auth > 1
-              : item.auth > 1 && item.auth < 3
+                ? item.auth > 1
+                : item.auth > 1 && item.auth < 3
           )
           .map((item) => (
             <li key={item.title}>

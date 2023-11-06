@@ -1,0 +1,16 @@
+.doc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 60px;
+
+  h1 {
+    font-size: var(--font-size-h1);
+  }
+  nav {
+    > ul {
+      display: flex;
+      gap: 10px;
+    }
+  }
+}

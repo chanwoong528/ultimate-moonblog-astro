@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useStore } from "@nanostores/react";
 import { userInfo } from "../../common/store/storeUser";
 
-import EditorSun from "./EditorSun";
+import EditorSun from "../Editor/EditorSun";
 import ItemGuestbook from "./ItemGuestbook";
 
 import {
@@ -51,6 +51,8 @@ const ListGuestbook = ({ guestbookData }) => {
       : setCurrentComment(guestbookId);
   };
   const onClickLike = async (id, btnType, currentType) => {
+    console.log("id, btnType, currentType", id, btnType, currentType)
+
     if (btnRefs.current.length > 0) {
       btnRefs.current.forEach((btn) =>
         btn.setAttribute("disabled", "disabled")
@@ -98,30 +100,27 @@ const ListGuestbook = ({ guestbookData }) => {
           break;
       }
     }
-
     const [interResult, patchCommentResult] = await Promise.all([
       userInteractive($userInfo.id, id, CONTENT_TYPE.comment, toBeType),
       patchCountGuestbook(id, apiSendType),
     ]);
-    setGuestBooks(
-      guestbooks.map((item) => {
-        if (item._id === patchCommentResult.data.id.id) {
-          return {
-            ...item,
-            likes: patchCommentResult.data.id.likes,
-            dislikes: patchCommentResult.data.id.dislikes,
-            interactiveType: toBeType,
-          };
-        }
-        return item;
-      })
-    );
+
+    const newGuestbook = await guestbooks.map((item) => {
+      if (item._id === patchCommentResult.data.id._id) {
+        return {
+          ...item,
+          likes: patchCommentResult.data.id.likes,
+          dislikes: patchCommentResult.data.id.dislikes,
+          interactiveType: toBeType,
+        };
+      }
+      return item;
+    })
+
+    setGuestBooks(newGuestbook);
     btnRefs.current.forEach((btn) => btn.removeAttribute("disabled"));
   };
   const onClickSave = async (content, parent?) => {
-    console.log(parent);
-    console.log(content);
-
     if (!!parent) {
       const postChild = await postGuestbook(content, parent);
       const tobeAddedData = await postChild.data;
@@ -137,7 +136,6 @@ const ListGuestbook = ({ guestbookData }) => {
           return item;
         })
       );
-
       // setGuestBooks();
     } else {
       const postComment = await postGuestbook(content);

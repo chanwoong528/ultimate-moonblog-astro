@@ -1,7 +1,7 @@
 //@ts-nocheck
 
 import React, { useEffect, useState } from "react";
-import EditorSun from "./EditorSun";
+import EditorSun from "../Editor/EditorSun";
 import {
   COMMENT_PATCH_TYPE,
   CONTENT_TYPE,
@@ -44,20 +44,19 @@ const ItemGuestbook = ({
 
       {recommentArr.length > 0
         ? recommentArr.map((childComment) => {
-            return (
-              <p style={{ border: "1px solid red" }}>{childComment.content}</p>
-            );
-          })
+          return (
+            <p style={{ border: "1px solid red" }}>{childComment.content}</p>
+          );
+        })
         : null}
       <div>
         <h3>{guestbook.interactiveType}</h3>
         <button
           ref={(ref) => (btnRefs.current[0] = ref)}
-          className={`btn-like${
-            guestbook.interactiveType === COMMENT_PATCH_TYPE.likeInc
-              ? " on"
-              : ""
-          }`}
+          className={`btn-like${guestbook.interactiveType === COMMENT_PATCH_TYPE.likeInc
+            ? " on"
+            : ""
+            }`}
           onClick={() => {
             onClickLike(guestbook._id, "likeBtn", guestbook.interactiveType);
           }}
@@ -66,11 +65,10 @@ const ItemGuestbook = ({
         </button>
         <button
           ref={(ref) => (btnRefs.current[1] = ref)}
-          className={`btn-like${
-            guestbook.interactiveType === COMMENT_PATCH_TYPE.dislikeInc
-              ? " on"
-              : ""
-          }`}
+          className={`btn-like${guestbook.interactiveType === COMMENT_PATCH_TYPE.dislikeInc
+            ? " on"
+            : ""
+            }`}
           onClick={() => {
             onClickLike(guestbook._id, "dislikeBtn", guestbook.interactiveType);
           }}
