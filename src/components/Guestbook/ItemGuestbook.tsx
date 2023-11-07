@@ -33,6 +33,7 @@ const ItemGuestbook = ({
           <header>
             <button
               onClick={() => {
+                console.log(guestbook._id)
                 onClickGetRecomments(guestbook._id);
               }}
             >
@@ -70,6 +71,7 @@ const ItemGuestbook = ({
             : ""
             }`}
           onClick={() => {
+            
             onClickLike(guestbook._id, "dislikeBtn", guestbook.interactiveType);
           }}
         >

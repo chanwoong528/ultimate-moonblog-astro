@@ -51,7 +51,7 @@ const ListGuestbook = ({ guestbookData }) => {
       : setCurrentComment(guestbookId);
   };
   const onClickLike = async (id, btnType, currentType) => {
-    console.log("id, btnType, currentType", id, btnType, currentType)
+    if (!$userInfo.id) return window.location.href = "/auth"
 
     if (btnRefs.current.length > 0) {
       btnRefs.current.forEach((btn) =>
@@ -149,6 +149,7 @@ const ListGuestbook = ({ guestbookData }) => {
         {guestbooks.map((guestbook) => {
           return (
             <ItemGuestbook
+              key={guestbook._id}
               guestbook={guestbook}
               onClickShow={onClickShow}
               onClickLike={onClickLike}
