@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import { userInfo } from "../../common/store/storeUser";
-import { checkLoginUser } from "../../http/auth/ApiUser";
-import { NAV_LIST } from "../../common/utils/constant/CONSTANT";
+import { userInfo } from "../../../common/store/storeUser";
+import { checkLoginUser } from "../../../http/auth/ApiUser";
+import { NAV_LIST } from "../../../common/utils/constant/CONSTANT";
 const GNB = () => {
   useEffect(() => {
     checkLoginUser();

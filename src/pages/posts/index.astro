@@ -1,7 +1,16 @@
 ---
+//@ts-nocheck
+
 import Layout from "../../layouts/Layout.astro";
+
+import NavPost from "../../components/Common/Nav/NavPost";
+import { getAllCategory } from "../../http/posts/ApiCategory";
+
+const postNavRes = await getAllCategory();
+const data = await postNavRes.data;
 ---
 
 <Layout title="ddddd">
   <h2>post index Page</h2>
+  <NavPost navData={data} client:only />
 </Layout>

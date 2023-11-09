@@ -2,15 +2,10 @@
 //@ts-nocheck
 
 import Layout from "../../layouts/Layout.astro";
-
 import ListGuestbook from "../../components/Guestbook/ListGuestbook";
-
-import { getGuestbooks } from "../../http/guestbook/ApiGuestbook";
-const guestbookResponse = await getGuestbooks();
-const guestbookData = await guestbookResponse.data;
 ---
 
 <Layout title="guestbook">
   <h2>Guestbook</h2>
-  <ListGuestbook client:only guestbookData={guestbookData} />
+  <ListGuestbook client:only />
 </Layout>

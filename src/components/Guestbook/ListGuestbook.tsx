@@ -3,11 +3,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useStore } from "@nanostores/react";
 import { userInfo } from "../../common/store/storeUser";
-
-import EditorSun from "../Editor/EditorSun";
 import ItemGuestbook from "./ItemGuestbook";
 
 import {
+  getGuestbooks,
   patchCountGuestbook,
   postGuestbook,
 } from "../../http/guestbook/ApiGuestbook";
@@ -21,43 +20,42 @@ import {
   COMMENT_PATCH_TYPE,
   CONTENT_TYPE,
 } from "../../common/utils/constant/BE_DATA_TYPES";
+import TextArea from "../Editor/TextArea";
 
-const ListGuestbook = ({ guestbookData }) => {
+const ListGuestbook = ({ }) => {
   const $userInfo = useStore(userInfo);
-  const [guestbooks, setGuestBooks] = useState(guestbookData);
+  const [guestbooks, setGuestBooks] = useState([]);
   const [currentComment, setCurrentComment] = useState("");
-  const btnRefs = useRef([]);
+
+  // const btnRefs = useRef([]);
   useEffect(() => {
-    if (!!$userInfo.id) {
-      fetchUserLikes($userInfo.id);
-    }
-  }, [$userInfo.id]);
+
+    fetchUserLikes($userInfo.id);
+  }, []);
   const fetchUserLikes = async (userId) => {
-    const userInterData = await getUserInteractive(userId);
-    setGuestBooks(
-      joinTwoArrayCommonId(
+    const guestbookArr = await fetchGuestbooks()
+    if (!!$userInfo.id) {
+      const userInterData = await getUserInteractive(userId);
+      return setGuestBooks(joinTwoArrayCommonId(
         userInterData.data,
-        guestbookData,
+        guestbookArr,
         "contentId",
         "_id"
-      )
-    );
-    return userInterData.data;
+      ));
+    }
+    return setGuestBooks(guestbookArr);
   };
+  const fetchGuestbooks = async () => {
+    const guestbookData = await getGuestbooks();
+    return guestbookData.data
+  }
   const onClickShow = (guestbookId) => {
-    console.log(guestbookId);
     currentComment === guestbookId
       ? setCurrentComment("")
       : setCurrentComment(guestbookId);
   };
   const onClickLike = async (id, btnType, currentType) => {
     if (!$userInfo.id) return window.location.href = "/auth"
-
-    if (btnRefs.current.length > 0) {
-      btnRefs.current.forEach((btn) =>
-        btn.setAttribute("disabled", "disabled")
-      );
-    }
     let toBeType;
     let apiSendType;
     if (btnType === "likeBtn") {
@@ -86,7 +84,6 @@ const ListGuestbook = ({ guestbookData }) => {
           apiSendType = COMMENT_PATCH_TYPE.dislikeInc;
           break;
         case COMMENT_PATCH_TYPE.dislikeInc:
-          console.log(currentType);
           toBeType = COMMENT_PATCH_TYPE.dislikeDes;
           apiSendType = COMMENT_PATCH_TYPE.dislikeDes;
           break;
@@ -118,28 +115,26 @@ const ListGuestbook = ({ guestbookData }) => {
     })
 
     setGuestBooks(newGuestbook);
-    btnRefs.current.forEach((btn) => btn.removeAttribute("disabled"));
+
   };
   const onClickSave = async (content, parent?) => {
+
     if (!!parent) {
       const postChild = await postGuestbook(content, parent);
       const tobeAddedData = await postChild.data;
-      console.log(postChild.data);
-      console.log(
-        guestbooks.map((item) => {
-          if (item._id === postChild.data.parentId) {
-            return {
-              ...item,
-              childComment: { ...item.childComment, ...postChild.data },
-            };
-          }
-          return item;
-        })
-      );
-      // setGuestBooks();
+      const newGuestbookData = guestbooks.map((item) => {
+        if (item._id === postChild.data.parentId) {
+          return {
+            ...item,
+            childrenCount: item.childrenCount + 1,
+          };
+        }
+        return item;
+      })
+      setGuestBooks(newGuestbookData);
     } else {
       const postComment = await postGuestbook(content);
-      console.log(postComment);
+      setGuestBooks([...guestbooks, await postComment.data]);
     }
   };
 
@@ -155,12 +150,13 @@ const ListGuestbook = ({ guestbookData }) => {
               onClickLike={onClickLike}
               onClickSave={onClickSave}
               currentComment={currentComment}
-              btnRefs={btnRefs}
+            // btnRefs={btnRefs}
             />
           );
         })}
       </ul>
-      <EditorSun type={CONTENT_TYPE.comment} onClickSave={onClickSave} />
+      <TextArea onClickSave={onClickSave} />
+      {/* <EditorSun type={CONTENT_TYPE.comment} onClickSave={onClickSave} /> */}
     </>
   );
 };

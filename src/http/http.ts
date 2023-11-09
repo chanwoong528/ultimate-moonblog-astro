@@ -36,12 +36,14 @@ http.interceptors.response.use(
         cookies.remove("refresh_token");
         resetUserInfo();
       }
-    } else {
-      //invalid Error -> logout user
-      cookies.remove("access_token");
-      cookies.remove("refresh_token");
-      resetUserInfo();
     }
+    // else {
+    //invalid Error -> logout user
+    // cookies.remove("access_token");
+    // cookies.remove("refresh_token");
+    // resetUserInfo();
+    // alert("다시 로그인");
+    // }
     return Promise.reject(error);
   }
 );
